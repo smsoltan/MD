@@ -54,24 +54,24 @@ $$
 V_{LJ} = 4\epsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6}\right] + const
 $$
 
-where $\epsilon$ is the depth of the density well and $\sigma$ is the value of $r$ for which the potential starts to be very small. Due to that, a cutoff could be introduced: the above equation is used only for $r<R_C$ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at $r=R_C$, the constant is taken to be equal
+where $\epsilon $ is the depth of the density well and $\sigma $ is the value of $r$ for which the potential starts to be very small. Due to that, a cutoff could be introduced: the above equation is used only for $r<R_C$ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at $r=R_C$, the constant is taken to be equal
 
 $$
 const = -4\epsilon\left[\left(\frac{\sigma}{R_C}\right)^{12} - \left(\frac{\sigma}{R_C}\right)^{6}\right]
 $$
 
-In the simulation, $R_C=2.5\sigma$. Both $\sigma$ and the mass of the particle are used as units in the simulation and hence are equal 1 by definition.
+In the simulation, $R_C=2.5\sigma $. Both $\sigma $ and the mass of the particle are used as units in the simulation and hence are equal 1 by definition.
 
 In principle to simulate MD one has to check the mutual interaction of every pair of particles. But, given the cutoff, some optimalisation may be introduced. For a given particle, one could assign a list - so called Verlet list - of particles that have the chance to interact in the near future. This list is actualised after a number of steps, by finding all the particles that are closer than certain treshold $R_M$. This number of steps is ussually given as a constant of simulation (dependent on other parameters). Here, a more "paranoic" version was applied: this number is calculated based on the largest velocity $v_{max}$ registered since the last actualisation: $R_M - R_C \simeq i\cdot 2v_{max} \cdot h$, where $i$ is the number of steps until next actualisation and $h$ is the timestep of the simulation. $R_M$ was taken to be equal $3.3\sigma$.
 
 Initially, particles are located on a cubic grid with random velocities. In each step of a simulation, new positions and velocities are calculated by the Verlet algorithm (that approximates the proper Newton dynamics):
 
 $$
-r(t+h) = r(t) + v(t)h + \frac{1}{2}a(t)h^2
+\vec{r}(t+h) = \vec{r}(t) + \vec{v}(t)h + \frac{1}{2}\vec{a}(t)h^2
 $$
 
 $$
-v(t+h) = v(t) + \frac{1}{2}[a(t) + a(t+h)]h
+\vec{v}(t+h) = \vec{v}(t) + \frac{1}{2}[\vec{a}(t) + \vec{a}(t+h)]h
 $$
 
 ## Literature

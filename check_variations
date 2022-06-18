@@ -1,0 +1,20 @@
+#!/bin/bash
+
+IN="init_sets/testing_set"
+OUT="check/check_"
+
+
+for(( power=1 ; power<3 ; power++ ))
+do
+ for(( b=10 ; b < 41 ; b+=15 ))
+ do
+  for(( t=0 ; t < 1 ; t++))
+  do
+echo "$IN$t.dat $OUT naive_t$t b $b s$power.dat `echo $b*0.1 | bc` `echo "0.10000000^$power" | bc` `echo "1000*(10^$power)" | bc`"
+./gpu_velocityverlet $IN$t".dat" $OUT"naive_t"$t"b"$b""s$power".dat" `echo "$b*0.1" | bc` `echo "0.10000000^$power" | bc` `echo "1000*(10^$power)" | bc`
+echo "$IN$t.dat $OUT opt_t $t b $b s$power.dat `echo "$b*0.1" | bc` `echo "0.10000000^$power" | bc` `echo "1000*(10^$power)" | bc`"
+./gpuopt_velocityverlet $IN$t".dat" $OUT"opt_t"$t"b"$b""s$power".dat" `echo "$b*0.1" | bc` `echo "0.10000000^$power" | bc` `echo "1000*(10^$power)" | bc`
+  done
+ done
+done
+

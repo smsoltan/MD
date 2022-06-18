@@ -22,25 +22,25 @@ to trigger Makefile. This will run commands to compile 5 programs, as well as cr
 
 **randv** *name* *N*
 
-Creates a set of random initial velocities for particles obeying the rule that the centre of mass is at rest. These sets are named 'name.dat'. The particles are assumed to be initially located on a 3D grid \(N \times N \times N\), and so each set contains data for \(N^3\) particles.
+Creates a set of random initial velocities for particles obeying the rule that the centre of mass is at rest. These sets are named 'name.dat'. The particles are assumed to be initially located on a 3D grid $N \times N \times N$, and so each set contains data for $N^3$ particles.
 
 **randoms** *name* *N*
 
-This is a bash script. Creates five sets of random initial velocities like the above. These sets are named 'namei.dat' and saved in 'init_sets' folder. The particles are assumed to be initially located on a 3D grid \(N \times N \times N\), and so each set contains data for \(N^3\) particles.
+This is a bash script. Creates five sets of random initial velocities like the above. These sets are named 'namei.dat' and saved in 'init_sets' folder. The particles are assumed to be initially located on a 3D grid $N \times N \times N$, and so each set contains data for $N^3$ particles.
 
 **cpu_velocityverlet** *initial_velocities* *output_file* *b* *step* *number_of_steps*
 
-Most basic program simulating the MD on the CPU. During calculations, it checks all the pairs of \(N\) particles to take interactions into account, so the calculation time grows as \(N^2\). The arguments are:
+Most basic program simulating the MD on the CPU. During calculations, it checks all the pairs of $N$ particles to take interactions into account, so the calculation time grows as $N^2$. The arguments are:
 
 - initial_velocities: the name of the file. First line contains the length of the edge of simulated space (given in the number of particles alongside the edge). Subsequent lines should contain xyz coordinates of velocities of subsequent particles. Note that for physical reasons the average velocity should be zero, i.e. the center of mass should be at rest. Files in this format are created by randv described above.
 - output_file: the name of the output file. First line have the information about parameters and calculation time. Next lines contain the values of kinetic energy, potential energy and total energy of the whole system.
-- b - initial separation between particles. Basically, \(b^{-3}\) is the density of particles. The values used in the report were from the range 1.0-4.0.
-- step - the size of the time step. The value \(h=0.01\) was used in the report. Note that the longer the time step, the less precise the calculations. If the total energy is not conserved over time, then the time step should be shorter.
+- b - initial separation between particles. Basically, $b^{-3}$ is the density of particles. The values used in the report were from the range 1.0-4.0.
+- step - the size of the time step. The value $h=0.01$ was used in the report. Note that the longer the time step, the less precise the calculations. If the total energy is not conserved over time, then the time step should be shorter.
 - number_of_steps - how many steps would the simulation perform. The report indicates that, given the values above, about 100-200 steps are required to pass from the highly ordered initial state to a physically meaningful stable one.
 
 **cpuopt_velocityverlet** *same arguments as above*
 
-Calculations made by this program are in principle less accurate, but the time scales approximately like \(N\) due to the use of so-called Verlet lists described further below.
+Calculations made by this program are in principle less accurate, but the time scales approximately like $N$ due to the use of so-called Verlet lists described further below.
 
 **gpu_velocityverlet** and **gpuopt_velocityverlet** (*same arguments as above*)
 
@@ -48,22 +48,28 @@ Both use GPU lock-free synchronisation. The returned time of calculations does n
 
 ## More details about the simulation
 
-The interaction of any two particles in this simulation separated by \(r\) is described by Lennard-Jones potential:
+The interaction of any two particles in this simulation separated by $r$ is described by Lennard-Jones potential:
+
 $$
 V_{LJ} = 4\epsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6}\right] + const
 $$
-where \(\epsilon\) is the depth of the density well and \(\sigma\) is the value of \(r\) for which the potential starts to be very small. Due to that, a cutoff could be introduced: the above equation is used only for \(r<R_C\) and the potential is taken to be 0 otherwise. In order for the potential to be continuous at \(r=R_C\), the constant is taken to be equal
+
+where $\epsilon$ is the depth of the density well and $\sigma$ is the value of $r$ for which the potential starts to be very small. Due to that, a cutoff could be introduced: the above equation is used only for $r<R_C$ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at $r=R_C$, the constant is taken to be equal
+
 $$
 const = -4\epsilon\left[\left(\frac{\sigma}{R_C}\right)^{12} - \left(\frac{\sigma}{R_C}\right)^{6}\right]
 $$
-In the simulation, \(R_C=2.5\sigma\). Both \(\sigma\) and the mass of the particle are used as units in the simulation and hence are equal 1 by definition.
 
-In principle to simulate MD one has to check the mutual interaction of every pair of particles. But, given the cutoff, some optimalisation may be introduced. For a given particle, one could assign a list - so called Verlet list - of particles that have the chance to interact in the near future. This list is actualised after a number of steps, by finding all the particles that are closer than certain treshold \(R_M\). This number of steps is ussually given as a constant of simulation (dependent on other parameters). Here, a more "paranoic" version was applied: this number is calculated based on the largest velocity \(v_{max}\) registered since the last actualisation: \(R_M - R_C \simeq i\cdot 2v_{max} \cdot h\), where \(i\) is the number of steps until next actualisation and \(h\) is the timestep of the simulation. \(R_M\) was taken to be equal \(3.3\sigma\).
+In the simulation, $R_C=2.5\sigma$. Both $\sigma$ and the mass of the particle are used as units in the simulation and hence are equal 1 by definition.
+
+In principle to simulate MD one has to check the mutual interaction of every pair of particles. But, given the cutoff, some optimalisation may be introduced. For a given particle, one could assign a list - so called Verlet list - of particles that have the chance to interact in the near future. This list is actualised after a number of steps, by finding all the particles that are closer than certain treshold $R_M$. This number of steps is ussually given as a constant of simulation (dependent on other parameters). Here, a more "paranoic" version was applied: this number is calculated based on the largest velocity $v_{max}$ registered since the last actualisation: $R_M - R_C \simeq i\cdot 2v_{max} \cdot h$, where $i$ is the number of steps until next actualisation and $h$ is the timestep of the simulation. $R_M$ was taken to be equal $3.3\sigma$.
 
 Initially, particles are located on a cubic grid with random velocities. In each step of a simulation, new positions and velocities are calculated by the Verlet algorithm (that approximates the proper Newton dynamics):
+
 $$
 r(t+h) = r(t) + v(t)h + \frac{1}{2}a(t)h^2
 $$
+
 $$
 v(t+h) = v(t) + \frac{1}{2}[a(t) + a(t+h)]h
 $$

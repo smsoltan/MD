@@ -18,7 +18,7 @@ to trigger Makefile. This will run commands to compile 5 programs, as well as cr
 
 `make clean`
 
-## Synopsis of programs (and a bash script)
+## Synopsis of programs and scripts
 
 **randv** *name* *N*
 
@@ -45,6 +45,10 @@ Calculations made by this program are in principle less accurate, but the time s
 **gpu_velocityverlet** and **gpuopt_velocityverlet** (*same arguments as above*)
 
 Both use GPU lock-free synchronisation. The returned time of calculations does not take into account the time needed to initialise kernel and to copy information back to CPU.
+
+**visualisation.py**
+
+Simple *ad hoc* python script to visualise the data. It'll ask you for the name of the input and the output, where it plots kinetic, potential and total energy versus time.
 
 ## More details about the simulation
 

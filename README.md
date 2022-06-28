@@ -4,8 +4,8 @@
 
 ## Overview
 
-One way of obtaining the macroscopic properties of matter is simulating its molecular dynamics [MD]. The underlying assumption here is that the values of specific parameters describing the system could be expressed as functions of microscopic parameters averaged over sufficiently long times (e.g. the temperature is related to average kinetic energy of particles involved). According to ergodic hypothesis this approach is equivalent to statistical physics approach based on statistical ensembles. However, simulating MD allows to avoid some cumbersome analytical calculations that may be involved in statistical physics approach.  
-Due to the sheer number of particles in a physically meaningful sample, simulating MD requires long calculation times - unless the numerics could be parallelised. The purpose of this project was to compare the times of simulating about 500 particles on CPU and on GPU, using NVidia graphic cards and CUDA programming tools.  
+One way to obtain the macroscopic properties of matter is simulating its molecular dynamics [MD]. The underlying assumption here is that values of the specific parameters describing the system could be expressed as functions of microscopic parameters averaged over sufficiently long times (e.g. temperature is related to average kinetic energy of particles involved). According to the ergodic hypothesis this approach is equivalent to statistical physics approach based on statistical ensembles. However, simulating MD avoids some cumbersome analytical calculations that may be involved in statistical physics approach.  
+Due to the sheer number of particles in a physically meaningful sample, simulating MD requires long calculation times - unless the code is parallelised. The purpose of this project was to compare the times of simulating about 500 particles on CPU and on GPU, using NVidia graphic cards and CUDA programming tools.  
 This repository contains source codes of programs written for the project. More details are provided further below. Full overview together with the obtained results are provided in the original report (.pdf file, currently only in Polish).
 
 ## Licensing
@@ -17,10 +17,10 @@ This project uses some open source code attached to the book *CUDA by examples* 
 At the beginning of the simulation, all particles are located on nodes of a cubic grid. All components of their velocity vectors are chosen at random with a bound that their center of mass is at rest. At each step of a simulation, new positions and velocities are calculated. Periodic boundary conditions were used [2].  
 Any two particle's interaction is described by a known potential with a cut-off distance (a distance between them above which the potential is zero). Given that, two approaches may be taken:
 
-1. (naive) Calculations of mutual forces are performed for all pairs of particles. Therefore the calculation time grows as $N^2$ where $N$ is the number of particles.
-2. (optimized) A simulation involves a so-called Verlet lists [2,3]: a list for each particle containing other particles that reasonably may interact with the original particle in a close future. This list is updated every certain number of steps. This is in principle less accurate than the naive approach, but the calculation time should scale approximately as $N$.
+* (naive) Calculations of mutual forces are performed for all pairs of particles. Therefore the calculation time grows as $N^2$ where $N$ is the number of particles.
+* (optimized) A simulation involves a so-called Verlet lists [2,3]: a list for each particle containing other particles that reasonably may interact with the original particle in a close future. This list is updated every certain number of steps. This is in principle less accurate than the naive approach, but the calculation time should scale approximately as $N$.
 
-To note, option 2. differed from the original Verlet proposition (see *More details about the simulation* below). The Verlet algorithm could be further parallelized, shortening the calculation time even further [4]. In this version however each Verlet list was processed sequentially on its thread.  
+To note, second option implementation differs from the original Verlet proposition (see *More details about the simulation* below). The Verlet algorithm could be further parallelized, shortening the calculation time even further [4]. In this version however each Verlet list was processed sequentially on its thread.  
 The grid's constant $b$, a time of a single step $h$ and a number of steps $L$ are all changeable parameters of the simulation. The values referenced in the report were:  
 
 * values of $b$ were taken from the range between 1.0 and 4.0

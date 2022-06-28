@@ -28,18 +28,18 @@ At the beginning of the simulation, all particles are located on nodes of a cubi
 
 Any two particle's interaction is described by a known potential with a cut-off distance (a distance between them above which the potential is zero). Given that, two approaches may be taken:
 
-1. (naive) Calculations of mutual forces are performed for all pairs of particles. Therefore the calculation time grows as $~N^2$ where $~N$ is the number of particles.
-2. (optimized) A simulation involves a so-called Verlet lists [2,3]: a list for each particle containing other particles that reasonably may interact with the original particle in a close future. This list is updated every certain number of steps. This is in principle less accurate than the naive approach, but the calculation time should scale approximately as $~N$.
+1. (naive) Calculations of mutual forces are performed for all pairs of particles. Therefore the calculation time grows as $N^2$ where $N$ is the number of particles.
+2. (optimized) A simulation involves a so-called Verlet lists [2,3]: a list for each particle containing other particles that reasonably may interact with the original particle in a close future. This list is updated every certain number of steps. This is in principle less accurate than the naive approach, but the calculation time should scale approximately as $N$.
 
 To note, option 2. differed from the original Verlet proposition (see "More details about the simulation" below). The Verlet algorithm could be further parallelized, shortening the calculation time even further [4]. In this version however each Verlet list was processed sequentially on its thread.
 
-The grid's constant $~b$, a time of a single step $~h$ and a number of steps $~L$ are all changeable parameters of the simulation. The values referenced in the report were:
+The grid's constant $b$, a time of a single step $h$ and a number of steps $L$ are all changeable parameters of the simulation. The values referenced in the report were:
 
 * values of $b$ were taken from the range between 1.0 and 4.0
 * $h=0.01$ was used in the report. Note that the longer the time step, the less precise the calculations. If the total energy is not conserved over time, then the time step should be shorter.
-* The report indicates that, given the values above, about 100-200 steps are required to pass from the highly ordered initial state to a physically meaningful stable one. The value of $~L$ should be appropriately larger.
+* The report indicates that, given the values above, about 100-200 steps are required to pass from the highly ordered initial state to a physically meaningful stable one. The value of $L$ should be appropriately larger.
 
-The number of particles $~N$ could also be varied, as follows from program's description below.
+The number of particles $N$ could also be varied, as follows from program's description below.
 
 ## Programs and scripts
 
@@ -76,13 +76,13 @@ $$
 V_{LJ} = 4\epsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6}\right] + const
 $$
 
-where $~\epsilon $ is the depth of the density well and $~\sigma $ is the value of $~r$ for which the potential starts to be very small . Due to that, a cut-off is introduced: the above equation is used only for $~r < R_C$ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at $r=R_C$, the constant is taken to be equal
+where $\epsilon $ is the depth of the density well and $\sigma $ is the value of $r$ for which the potential starts to be very small. Due to that, a cut-off is introduced: the above equation is used only for $r < R_C$ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at $r=R_C$, the constant is taken to be equal
 
 $$
 const = -4\epsilon\left[\left(\frac{\sigma}{R_C}\right)^{12} - \left(\frac{\sigma}{R_C}\right)^{6}\right]
 $$
 
-In the simulation, $~R_C=2.5\sigma $. Both $~\sigma $ and the mass of the particle are used as units in the simulation and hence are equal 1 by definition.
+In the simulation, $R_C=2.5\sigma $. Both $\sigma $ and the mass of the particle are used as units in the simulation and hence are equal 1 by definition.
 
 In principle to simulate MD one has to check the mutual interaction of every pair of particles. But, given the cut-off, some optimization may be introduced. For a given particle, one could assign a list - so called Verlet list - of particles that have the chance to interact in the near future. This list is actualized after a number of steps, by finding all the particles that are closer than certain threshold $R_M$. This number of steps is usually given as a constant of simulation (dependent on other parameters). Here, a more "paranoid" version was implemented: this number is calculated based on the largest velocity $v_{max}$ registered since the last actualization: $R_M - R_C \simeq i\cdot 2v_{max} \cdot h$, where $i$ is the number of steps until next actualization and $h$ is the timestep of the simulation. $R_M$ was taken to be equal $3.3\sigma$.
 

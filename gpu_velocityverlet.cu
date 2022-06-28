@@ -18,7 +18,7 @@ int N, l;
 double S, step;
 
 __constant__ int N_dev, l_dev;
-__constant__ double S_dev;
+__constant__ double S_dev; 
 __constant__ double step_dev;
 
 // these exist on the gpu side

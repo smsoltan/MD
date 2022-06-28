@@ -16,7 +16,7 @@
 //double OFF = 4*EPS*(pow(2.5, -12) - powf(2.5, -6))
 
 int N, l;
-double S, step;
+double S, step; 
 
 __constant__ int N_dev, l_dev;
 __constant__ double S_dev;

@@ -202,7 +202,7 @@ void VelocityVerlet
 int setAtoms(int n, double b, double *r)
 {
    S = n*b;
-   if (S < 3*RC) {l = 0; return 0; }
+   if (S < 3*RC) {l = 0; return 0; } 
    for (int z = 0; z < n; ++z)
       for (int y = 0; y < n; ++y)
          for (int x = 0; x < n; ++x)

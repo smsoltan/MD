@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import sys
 
 
-name = input("enter the name of the datafile produced by MD program: ")
+name = input("enter the name of the datafile produced by MD program: ") 
 f = open(name, "r")
 ignore = f.readline()
 raw_data = f.readlines()

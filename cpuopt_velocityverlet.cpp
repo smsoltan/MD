@@ -344,7 +344,7 @@ int setAtoms(int n, double b, double *r)
       r[3*(z*n*n + y*n + x) + 1] = y*b + 0.5*b;
       r[3*(z*n*n + y*n + x) + 2] = z*b + 0.5*b;
    }
-   return 1;
+   return 1; 
 }
 
 //Writes the obtained values of one observable

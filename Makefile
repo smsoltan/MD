@@ -29,5 +29,5 @@ gpuopt_velocityverlet : gpuopt_velocityverlet.cu book.h
 .PHONY: clean
 clean:
 	rm -f $(OBJECTS)
-	rm -R init_sets
+	rm -R init_sets 
 

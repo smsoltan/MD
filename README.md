@@ -1,6 +1,6 @@
 # Project of simulating molecular dynamics
 
-## Overview
+## Overview 
 
 One way of obtaining the macroscopic properties of matter is simulating its molecular dynamics [MD]. The underlying assumption here is that the values of specific parameters describing the system could be expressed as functions of microscopic parameters averaged over sufficiently long times (e.g. the temperature is related to average kinetic energy of particles involved). According to ergodic hypothesis this approach is equivalent to statistical physics approach based on statistical ensembles. However, simulating MD allows to avoid some cumbersome analytical calculations that may be involved in statistical physics approach.
 

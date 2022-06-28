@@ -7,4 +7,4 @@ for((i=0 ; i<5 ; ++i ))
 do
    ./randv "init_sets/$NAME$i.dat" $N
    echo "one set done"
-done
+done 

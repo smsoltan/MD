@@ -99,7 +99,7 @@ $$
 ## Literature
 
 [1] J. Sanders, E. Kandrot, *CUDA by Example. An introduction to general-purpose GPU programming*, Addison-Wesley 2011  
-[2] M. P. Allen, *Introduction to molecular dynamics simulation*, Computational soft matter: from synthetic polymers to proteins ** 23**(1), 1-28, 2004.  
+[2] M. P. Allen, *Introduction to molecular dynamics simulation*, Computational soft matter: from synthetic polymers to proteins **23**(1), 1-28, 2004.  
 [3] L. Verlet, *Computer "Experiments" on Classical Fluids. I. Thermodynamical Properties of Lennard-Jones Molecules*, Physical Review **159**(1), 98-103, 1967  
 [4] T. Lipscomb, A. Zou, S. S. Cho, *Parallel Verlet Neighbor List Algorithm for GPU-Optimized MD Simulations*, Proceedings of the ACM Conference on Bioinformatics, Computational Biology and Biomedicine, 321-328, 2012  
 [5] S. Xiao, W. Feng, *Inter-Block GPU Communication via Fast Barrier Synchronization*, 2010 IEEE International Symposium on Parallel & Distributed Processing (IPDPS), IEEE, 2010.  

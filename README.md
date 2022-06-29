@@ -74,7 +74,7 @@ $$
 V_{LJ} = 4\epsilon\left(\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6}\right) + const
 $$
 
-where$~ \epsilon$ is the depth of the density well and$~ \sigma $ is the value of $r$ for which the potential starts to be very small. Due to that, a cut-off is introduced: the above equation is used only for $r < R\_C $ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at$~ r=R\_C$, the constant is taken to be equal
+where$~ \epsilon$ is the depth of the density well and$~ \sigma$ is the value of $~ r$ for which the potential starts to be very small. Due to that, a cut-off is introduced: the above equation is used only for $r < R\_C $ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at$~ r=R\_C$, the constant is taken to be equal
 
 $$
 const = -4\epsilon\left(\left(\frac{\sigma}{R\_C}\right)^{12} - \left(\frac{\sigma}{R\_C}\right)^{6}\right)

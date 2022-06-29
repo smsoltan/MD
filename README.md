@@ -74,15 +74,15 @@ $$
 V_{LJ} = 4\epsilon\left(\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6}\right) + const
 $$
 
-where$~\epsilon$ is the depth of the density well and$~\sigma $ is the value of $r$ for which the potential starts to be very small. Due to that, a cut-off is introduced: the above equation is used only for $r < R\_C $ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at$~r=R\_C$, the constant is taken to be equal
+where$~ \epsilon$ is the depth of the density well and$~ \sigma $ is the value of $r$ for which the potential starts to be very small. Due to that, a cut-off is introduced: the above equation is used only for $r < R\_C $ and the potential is taken to be 0 otherwise. In order for the potential to be continuous at$~ r=R\_C$, the constant is taken to be equal
 
 $$
 const = -4\epsilon\left(\left(\frac{\sigma}{R\_C}\right)^{12} - \left(\frac{\sigma}{R\_C}\right)^{6}\right)
 $$
 
-In the simulation,$~R\_C=2.5\sigma $. Both$~\sigma $ and the mass of the particle are used as units in the simulation and hence are set to 1 by definition.
+In the simulation,$~ R\_C=2.5\sigma $. Both $~ \sigma $ and the mass of the particle are used as units in the simulation and hence are set to 1 by definition.
 
-In principle to simulate MD one has to check the mutual interaction of every pair of particles. But, given the cut-off, some optimization may be introduced. For a given particle, one could assign a list - so called Verlet list - of particles that have the chance to interact in the near future. This list is actualized every specified number of steps, by finding all the particles that are closer than certain threshold$~R\_M $ . This number of steps is usually given as a constant of simulation (dependent on other parameters). Here, a more `"`paranoid`"` version was implemented: this number is calculated based on the largest velocity $v\_{max}$ registered since the last actualization:$~R\_M - R\_C \simeq m\cdot 2v\_{max} \cdot h$, where $~m$ is the number of steps until next actualization and$~h$ is the timestep of the simulation.$~R\_M$ was taken to be equal$~3.3\sigma$.
+In principle to simulate MD one has to check the mutual interaction of every pair of particles. But, given the cut-off, some optimization may be introduced. For a given particle, one could assign a list - so called Verlet list - of particles that have the chance to interact in the near future. This list is actualized every specified number of steps, by finding all the particles that are closer than certain threshold$~ R\_M $ . This number of steps is usually given as a constant of simulation (dependent on other parameters). Here, a more `"`paranoid`"` version was implemented: this number is calculated based on the largest velocity $v\_{max}$ registered since the last actualization:$~ R\_M - R\_C \simeq m\cdot 2v\_{max} \cdot h$, where $~ m$ is the number of steps until next actualization and$~ h$ is the timestep of the simulation.$~ R\_M$ was taken to be equal$~ 3.3\sigma$.
 
 Initially, particles are located on a cubic grid with random velocities. In each step of a simulation, new positions and velocities are calculated by the Verlet algorithm (that approximates the proper Newton dynamics):
 

@@ -1,6 +1,6 @@
 # Project of simulating molecular dynamics
 
-*Note: this file uses mathjax. If mathematical expressions are not rendered, you may prefer [the .pdf version](readme.pdf).*
+*Note: this file uses mathjax. If mathematical expressions are not rendered properly, you may prefer [the .pdf version](readme.pdf).*
 
 ## Overview
 
